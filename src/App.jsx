@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useLocation, BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { animateScroll } from "react-scroll";
+import { useEffect } from "react";
+
+import PublicLayout from "./layouts/public";
+import HomePage from "./pages/public/HomePage";
+import AdminLayout from "./layouts/admin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import ConsultantLayout from "./layouts/consultant";
+import ConsultantLogin from "./pages/consunltant/ConsultantLogin";
+import ConsultantSignup from "./pages/consunltant/ConsultantSignup";
+import ConsultantDashboard from "./pages/consunltant/ConsultantDashboard";
+import JobSeekerLayout from "./layouts/job_seeker";
+import JobSeekerLogin from "./pages/job_seeker/JobseekerLogin";
+import JobSeekerSignup from "./pages/job_seeker/JobseekerSignup";
+import JobSeekerDashboard from "./pages/job_seeker/JobSeekerDashboard";
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const directory = useLocation();
+  useEffect(() => {
+    animateScroll.scrollToTop({
+      duration: 0,
+    });
+  }, [directory.pathname]);
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <Routes>
+      <Route path="/" element={<PublicLayout />}>
+        <Route index element={<HomePage />} />
+      </Route>
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route index element={<AdminDashboard />} />
+        <Route path="login" element={<JobSeekerLogin />} />
+      </Route>
+      <Route path="/job-seeker" element={<JobSeekerLayout />}>
+        <Route index element={<JobSeekerDashboard />} />
+        <Route path="login" element={<JobSeekerLogin />} />
+        <Route path="signup" element={<JobSeekerSignup />} />
+      </Route>
+      <Route path="/consultant" element={<ConsultantLayout />}>
+        <Route index element={<ConsultantDashboard />} />
+        <Route path="login" element={<ConsultantLogin />} />
+        <Route path="signup" element={<ConsultantSignup />} />
+      </Route>
+    </Routes>
+  );
 }
 
-export default App
+export default App;
