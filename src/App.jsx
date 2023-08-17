@@ -28,6 +28,8 @@ function App() {
     <Routes>
       <Route path="/" element={<PublicLayout />}>
         <Route index element={<HomePage />} />
+        <Route path="job-seeker/login" element={<JobSeekerLogin />} />
+        <Route path="job-seeker/signup" element={<JobSeekerSignup />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboard />} />
@@ -35,8 +37,6 @@ function App() {
       </Route>
       <Route path="/job-seeker" element={<JobSeekerLayout />}>
         <Route index element={<JobSeekerDashboard />} />
-        <Route path="login" element={<JobSeekerLogin />} />
-        <Route path="signup" element={<JobSeekerSignup />} />
       </Route>
       <Route path="/consultant" element={<ConsultantLayout />}>
         <Route index element={<ConsultantDashboard />} />
