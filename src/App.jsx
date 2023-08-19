@@ -6,6 +6,7 @@ import PublicLayout from "./layouts/public";
 import HomePage from "./pages/public/HomePage";
 import AdminLayout from "./layouts/admin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminLogin from "./pages/admin/AdminLogin";
 import ConsultantLayout from "./layouts/consultant";
 import ConsultantLogin from "./pages/consunltant/ConsultantLogin";
 import ConsultantSignup from "./pages/consunltant/ConsultantSignup";
@@ -30,10 +31,10 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="job-seeker/login" element={<JobSeekerLogin />} />
         <Route path="job-seeker/signup" element={<JobSeekerSignup />} />
+        <Route path="admin/login" element={<AdminLogin />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboard />} />
-        <Route path="login" element={<JobSeekerLogin />} />
       </Route>
       <Route path="/job-seeker" element={<JobSeekerLayout />}>
         <Route index element={<JobSeekerDashboard />} />
