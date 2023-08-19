@@ -32,6 +32,8 @@ function App() {
         <Route path="job-seeker/login" element={<JobSeekerLogin />} />
         <Route path="job-seeker/signup" element={<JobSeekerSignup />} />
         <Route path="admin/login" element={<AdminLogin />} />
+        <Route path="consultant/login" element={<ConsultantLogin />} />
+        <Route path="consultant/signup" element={<ConsultantSignup />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboard />} />
@@ -41,8 +43,6 @@ function App() {
       </Route>
       <Route path="/consultant" element={<ConsultantLayout />}>
         <Route index element={<ConsultantDashboard />} />
-        <Route path="login" element={<ConsultantLogin />} />
-        <Route path="signup" element={<ConsultantSignup />} />
       </Route>
     </Routes>
   );
