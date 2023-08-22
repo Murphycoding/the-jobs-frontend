@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState,useEffect  } from 'react';
+
 
 const AdminDashboard = () => {
   
   return (
-    <div>Admin Dashboard</div>
+        <div>Admin Dashboard</div>
+     
   );
 };
 
-export default AdminDashboard;
+export default AdminDashboard
