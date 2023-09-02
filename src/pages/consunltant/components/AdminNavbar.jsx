@@ -78,7 +78,7 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
           icon={<AiOutlineMenu />}
         />
         <div className="flex">
-          <NavButton
+          {/* <NavButton
             title="Cart"
             customFunc={() => handleClick("cart")}
             color={currentColor}
@@ -97,7 +97,7 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
             customFunc={() => handleClick("notification")}
             color={currentColor}
             icon={<RiNotification3Line />}
-          />
+          /> */}
          
             <div
               className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
@@ -111,7 +111,7 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
               <p>
                 <span className="text-gray-400 text-14">Hi,</span>{" "}
                 <span className="text-gray-400 font-bold ml-1 text-14">
-                  Michael
+                  Tharuka
                 </span>
               </p>
               <MdKeyboardArrowDown className="text-gray-400 text-14" />
