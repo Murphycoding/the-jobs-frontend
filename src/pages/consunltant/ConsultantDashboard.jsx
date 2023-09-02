@@ -15,7 +15,7 @@ const ConsultantDashboard = () => {
         <table class="min-w-max w-full table-auto">
           <thead>
             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-              <th class="py-3 px-6 text-left">Consultant Name </th>
+              <th class="py-3 px-6 text-left">Job seeker  Name </th>
               <th class="py-3 px-6 text-left">Specific Country</th>
               <th class="py-3 px-6 text-center">Job Type</th>
               <th class="py-3 px-6 text-center">Free Time </th>

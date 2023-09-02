@@ -7,7 +7,7 @@ const AdminDashboard = () => {
         <div class="mb-10">
           
           <p class="text-3xl font-extrabold tracking-tight text-slate-900">
-            Color Picker
+          Manage  Consultant Dashboard
           </p>
         </div>
         <table class="min-w-max w-full table-auto">
