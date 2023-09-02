@@ -5,7 +5,7 @@ const AdminDashboard = () => {
     <div>
       <div class="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
         <div class="mb-10">
-          <p class="text-gray-400">App</p>
+          
           <p class="text-3xl font-extrabold tracking-tight text-slate-900">
             Color Picker
           </p>
