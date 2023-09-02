@@ -3,6 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { SiShopware } from 'react-icons/si';
 import { MdOutlineCancel } from 'react-icons/md';
 import { links } from './data/dummy';
+import Logo from "../../../assets/logo-3.png";
 import { useStateContext } from './contexts/ContextProvider';
 const initialState = {
     chat: false,
@@ -32,7 +33,11 @@ const Sidebar = () => {
       {activeMenu && (<>
       <div className='flex justify-between items-center'> 
         <Link to="/" onClick={handleCloseSidebar} className='items-center gap-3 ml-3 mt-4 flex text-xl font-extrabold tracking-tight dark:text-white text-slate-900'>
-          <SiShopware /><span>Assert</span>
+        <img
+            className="md:h-10 h-8"
+            src={Logo}
+            alt="Logo"
+          />  
         </Link>
           <button type='button' onClick={()=>setActiveMenu((prevActiveMenu)=> !prevActiveMenu)} className='text-xl rounded-full p-3 hover:bg-light-gray mt-4 block'>
             <MdOutlineCancel /> 
