@@ -26,9 +26,9 @@ const Consunltantlogin = () => {
                 </div>
                 <div class="flex justify-between p-8 text-sm border-t border-gray-300 bg-gray-100">
                  
-                 <Link to="/Job_seekerlogin" className="text-gray-600">Job Seeker</Link>
-                 <Link to="/Consunltantlogin" className="text-gray-600">Consunltant</Link>
-                 <Link to="/AdminView" className="text-gray-600">Admin</Link>
+                 <Link to="/job-seeker/login" className="text-gray-600">Job Seeker</Link>
+                 <Link to="/consultant/login" className="text-gray-600">Consunltant</Link>
+                 <Link to="/admin/login" className="text-gray-600">Admin</Link>
              </div> 
              
                 

@@ -20,7 +20,7 @@ const JobSeekerSignup = () => {
                   for="username"
                   class="block mb-2 text-sm font-medium text-gray-600"
                 >
-                  username
+                  User Name
                 </label>
 
                 <input
@@ -75,13 +75,13 @@ const JobSeekerSignup = () => {
             {message && <p>{message}</p>}
           </div>
           <div class="flex justify-between p-8 text-sm border-t border-gray-300 bg-gray-100">
-            <Link to="/Job_seekersignup" className="text-gray-600">
+            <Link to="/job-seeker/signup" className="text-gray-600">
               Job Seeker
             </Link>
-            <Link to="/Consunltantsignup" className="text-gray-600">
+            <Link to="/consultant/signup" className="text-gray-600">
               Consunltant
             </Link>
-            <Link to="/Signup" className="text-gray-600">
+            <Link to="/admin/login" className="text-gray-600">
               Admin
             </Link>
           </div>

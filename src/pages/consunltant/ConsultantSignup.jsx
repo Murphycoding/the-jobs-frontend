@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+
 const Consunltantsignup = () => {
     return (
     <div class="container mx-auto p-8 mt-36 flex">
@@ -9,32 +10,15 @@ const Consunltantsignup = () => {
                 <div className=" h3  text-center">Consunltants</div>
                     <form method="POST" class="" action="#" onSubmit="return false;">
                 
+                        
                         <div class="mb-5">
-                            <label for="name" class="block mb-2 text-sm font-medium text-gray-600">Full Name</label>
+                            <label for="addres" class="block mb-2 text-sm font-medium text-gray-600">User Name</label>
 
-                            <input type="text" name="name" class="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"/>
-                        </div>
-                        <div class="mb-5">
-                            <label for="contactnumber" class="block mb-2 text-sm font-medium text-gray-600">Contact Number</label>
-
-                            <input type="text" name="contactnumber" class="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"/>
-                        </div>
-                        <div class="mb-5">
-                            <label for="addres" class="block mb-2 text-sm font-medium text-gray-600">Addres</label>
-
-                            <input type="text" name="addres" class="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"/>
+                            <input type="text" name="user name" class="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"/>
                         </div>
         
-                        <div class="mb-5">
-                            <label for="age" class="block mb-2 text-sm font-medium text-gray-600">Age</label>
-
-                            <input type="text" name="age" class="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"/>
-                        </div>
-                        <div class="mb-5">
-                            <label for="gender" class="block mb-2 text-sm font-medium text-gray-600">Gender</label>
-
-                            <input type="text" name="gender" class="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"/>
-                        </div>
+                        
+                      
                         <div class="mb-5">
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-600">Email</label>
 
@@ -52,9 +36,9 @@ const Consunltantsignup = () => {
                 </div>
                 <div class="flex justify-between p-8 text-sm border-t border-gray-300 bg-gray-100">
                  
-                    <Link to="/Job_seekersignup" className="text-gray-600">Job Seeker</Link>
-                    <Link to="/Consunltantsignup" className="text-gray-600">Consunltant</Link>
-                    <Link to="/Signup" className="text-gray-600">Admin</Link>
+                    <Link to="/job-seeker/signup" className="text-gray-600">Job Seeker</Link>
+                    <Link to="/consultant/signup" className="text-gray-600">Consunltant</Link>
+                    <Link to="/admin/login" className="text-gray-600">Admin</Link>
              </div> 
         
             </div>
