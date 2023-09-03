@@ -1,12 +1,33 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate  } from "react-router-dom";
 import React, { useState } from "react";
+import ConsunltantService from "../../services/consunltant_auth.service";
 
 const Consunltantsignup = () => {
-    const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
-    const [email, setEmail] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [message, setMessage] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const navigate = useNavigate();
+
+  const handleSignup = (event) => {
+    event.preventDefault();
+    // Perform register logic here
+    console.log("Login button clicked");
+    console.log("Username:", username);
+    console.log("Password:", password);
+
+    ConsunltantService.register(username, email, password).then(
+      () => {
+        console.log("Logging successful");
+        navigate("/consultant/login");
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
 
   return (
     <div class="container mx-auto p-8 mt-36 flex">
@@ -14,7 +35,7 @@ const Consunltantsignup = () => {
         <div class="bg-white rounded-lg overflow-hidden shadow-2xl">
           <div class="p-8">
             <div className=" h3  text-center">Consunltants</div>
-            <form method="POST" class="" action="#" onSubmit="return false;">
+            <form onSubmit={handleSignup}>
               <div class="mb-5">
                 <label
                   for="addres"
