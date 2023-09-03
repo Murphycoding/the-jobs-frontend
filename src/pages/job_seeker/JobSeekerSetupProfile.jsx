@@ -19,7 +19,7 @@ const JobSeekerSetupProfile = () => {
           <label class="block my-3 mt-8" for="name" id="name-label">
             <span class="font-medium text-gray-700">First Name</span>
             <input
-              class="bg-gray-100 border rounded focus:border-green-400 outline-none w-full block p-2 mt-2"
+              class="bg-gray-100 border rounded focus:border-blue-400 outline-none w-full block p-2 mt-2"
               id="name"
               type="text"
               placeholder="Enter your first name"
@@ -29,7 +29,7 @@ const JobSeekerSetupProfile = () => {
           <label class="block my-3 mt-8" for="name" id="name-label">
             <span class="font-medium text-gray-700">Last Name</span>
             <input
-              class="bg-gray-100 border rounded focus:border-green-400 outline-none w-full block p-2 mt-2"
+              class="bg-gray-100 border rounded focus:border-blue-400 outline-none w-full block p-2 mt-2"
               id="name"
               type="text"
               placeholder="Enter your last name"
@@ -40,7 +40,7 @@ const JobSeekerSetupProfile = () => {
           <label class="block my-3" for="number" id="number-label">
             <span class="font-medium text-gray-700">Age</span>
             <input
-              class="bg-gray-100 border rounded focus:border-green-400 outline-none w-full block p-2 mt-2"
+              class="bg-gray-100 border rounded focus:border-blue-400 outline-none w-full block p-2 mt-2"
               id="number"
               type="number"
               placeholder="Enter your age"
@@ -76,7 +76,7 @@ const JobSeekerSetupProfile = () => {
           <label class="block my-3 mt-8" for="name" id="name-label">
             <span class="font-medium text-gray-700">Address</span>
             <input
-              class="bg-gray-100 border rounded focus:border-green-400 outline-none w-full block p-2 mt-2"
+              class="bg-gray-100 border rounded focus:border-blue-400 outline-none w-full block p-2 mt-2"
               id="name"
               type="text"
               placeholder="address"
@@ -86,7 +86,7 @@ const JobSeekerSetupProfile = () => {
           <label class="block my-3 mt-8" for="name" id="name-label">
             <span class="font-medium text-gray-700">Contact Number</span>
             <input
-              class="bg-gray-100 border rounded focus:border-green-400 outline-none w-full block p-2 mt-2"
+              class="bg-gray-100 border rounded focus:border-blue-400 outline-none w-full block p-2 mt-2"
               id="name"
               type="text"
               placeholder="+94"
@@ -96,7 +96,7 @@ const JobSeekerSetupProfile = () => {
           <label class="block my-3 mt-8" for="name" id="name-label">
             <span class="font-medium text-gray-700">Job Type </span>
             <input
-              class="bg-gray-100 border rounded focus:border-green-400 outline-none w-full block p-2 mt-2"
+              class="bg-gray-100 border rounded focus:border-blue-400 outline-none w-full block p-2 mt-2"
               id="name"
               type="text"
               placeholder="job type"
