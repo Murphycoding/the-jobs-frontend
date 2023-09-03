@@ -16,6 +16,7 @@ import JobSeekerLogin from "./pages/job_seeker/JobseekerLogin";
 import JobSeekerSignup from "./pages/job_seeker/JobseekerSignup";
 import JobSeekerDashboard from "./pages/job_seeker/JobSeekerDashboard";
 import JobSeekerGetAppointment from "./pages/job_seeker/JobSeekerGetAppointment";
+import ConsultantAvailableDate from "./pages/consunltant/ConsultantAvailableDate";
 
 function App() {
   const directory = useLocation();
@@ -35,9 +36,9 @@ function App() {
         <Route path="consultant/login" element={<ConsultantLogin />} />
         <Route path="consultant/signup" element={<ConsultantSignup />} />
       </Route>
-<Route path="/admin" element={<AdminLayout />}>
+      <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboard />} />
-      </Route>      
+      </Route>
       <Route path="/job-seeker" element={<JobSeekerLayout />}>
         <Route index element={<JobSeekerDashboard />} />
         <Route path="appoinment" element={<JobSeekerGetAppointment />} />
@@ -45,6 +46,7 @@ function App() {
       
       <Route path="/consultant" element={<ConsultantLayout />}>
         <Route index element={<ConsultantDashboard />} />
+        <Route path="availabledate" element={<ConsultantAvailableDate />} />
       </Route>
     </Routes>
   );
