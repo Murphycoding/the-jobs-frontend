@@ -35,9 +35,9 @@ function App() {
         <Route path="consultant/login" element={<ConsultantLogin />} />
         <Route path="consultant/signup" element={<ConsultantSignup />} />
       </Route>
-      <Route path="/admin" element={<AdminLayout />}>
+<Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboard />} />
-      </Route>
+      </Route>      
       <Route path="/job-seeker" element={<JobSeekerLayout />}>
         <Route index element={<JobSeekerDashboard />} />
         <Route path="appoinment" element={<JobSeekerGetAppointment />} />
