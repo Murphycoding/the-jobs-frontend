@@ -14,7 +14,7 @@ import ConsultantDashboard from "./pages/consunltant/ConsultantDashboard";
 import ConsultantAvailableDate from "./pages/consunltant/ConsultantAvailableDate";
 import ConsultantSetupProfile from "./pages/consunltant/ConsultantSetupProfile";
 import JobSeekerLayout from "./layouts/job_seeker";
-import JobSeekerLogin from "./pages/job_seeker/JobseekerLogin";
+import JobSeekerLogin from "./pages/job_seeker/JobSeekerLogin";
 import JobSeekerSignup from "./pages/job_seeker/JobseekerSignup";
 import JobSeekerSetupProfile from "./pages/job_seeker/JobSeekerSetupProfile";
 import JobSeekerDashboard from "./pages/job_seeker/JobSeekerDashboard";
@@ -39,7 +39,7 @@ function App() {
         <Route path="admin/login" element={<AdminLogin />} />
         <Route path="consultant/login" element={<ConsultantLogin />} />
         <Route path="consultant/signup" element={<ConsultantSignup />} />
-        <Route path="consultant/profile" element={<ConsultantSetupProfile />} />
+        <Route path="consultant/signup/profile" element={<ConsultantSetupProfile />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboard />} />

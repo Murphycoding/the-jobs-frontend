@@ -9,18 +9,18 @@ const profile = (firstname,lastname,dob,gender,address,contactnumber,nic,jobtype
   return axios.post(API_URL + "save", {
     "first_name":firstname,
     "last_name":lastname,
-    "dob":dob,
+    "dob": dob,
     "gender":gender,
     "address":address,
-    "contact_number":contactnumber,
+    "contact_number": contactnumber,
     "nic":nic,
     "job_type":jobtype,
   });
 };
 
-const JobSeekerService = {
+const ConsunltantService = {
   getDashboard,profile
 }
 
 
-export default JobSeekerService;
+export default ConsunltantService;
