@@ -11,12 +11,15 @@ import ConsultantLayout from "./layouts/consultant";
 import ConsultantLogin from "./pages/consunltant/ConsultantLogin";
 import ConsultantSignup from "./pages/consunltant/ConsultantSignup";
 import ConsultantDashboard from "./pages/consunltant/ConsultantDashboard";
+import ConsultantAvailableDate from "./pages/consunltant/ConsultantAvailableDate";
+import ConsultantSetupProfile from "./pages/consunltant/ConsultantSetupProfile";
 import JobSeekerLayout from "./layouts/job_seeker";
 import JobSeekerLogin from "./pages/job_seeker/JobseekerLogin";
 import JobSeekerSignup from "./pages/job_seeker/JobseekerSignup";
+import JobSeekerSetupProfile from "./pages/job_seeker/JobSeekerSetupProfile";
 import JobSeekerDashboard from "./pages/job_seeker/JobSeekerDashboard";
 import JobSeekerGetAppointment from "./pages/job_seeker/JobSeekerGetAppointment";
-import ConsultantAvailableDate from "./pages/consunltant/ConsultantAvailableDate";
+
 
 function App() {
   const directory = useLocation();
@@ -32,9 +35,11 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="job-seeker/login" element={<JobSeekerLogin />} />
         <Route path="job-seeker/signup" element={<JobSeekerSignup />} />    
+        <Route path="job-seeker/signup/profile" element={<JobSeekerSetupProfile />} /> 
         <Route path="admin/login" element={<AdminLogin />} />
         <Route path="consultant/login" element={<ConsultantLogin />} />
         <Route path="consultant/signup" element={<ConsultantSignup />} />
+        <Route path="consultant/signup/profile" element={<ConsultantSetupProfile />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboard />} />
