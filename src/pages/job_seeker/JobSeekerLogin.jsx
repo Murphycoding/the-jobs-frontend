@@ -1,13 +1,34 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate  } from "react-router-dom";
 import React, { useState } from "react";
+import JobSeekerService from "../../services/jobseeker_auth.service";
 
 
 const JobSeekerLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+
+  const navigate = useNavigate();
+
+  // Function to handle login button click
+  const handleLogin = (event) => {
+    event.preventDefault();
+    // Perform login logic here
+    console.log("Login button clicked");
+    console.log("Username:", username);
+    console.log("Password:", password);
+
+    JobSeekerService.login(username, password).then(
+      () => {
+        console.log("Logging successful");
+        navigate("/job-seeker");
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
  
   return (
     <div class="container mx-auto p-8 mt-44 flex">
@@ -15,7 +36,7 @@ const JobSeekerLogin = () => {
         <div class="bg-white rounded-lg overflow-hidden shadow-2xl">
           <div class="p-8">
             <div className=" h3  text-center">Job Seeker</div>
-            <form >
+            <form onSubmit={handleLogin}>
               <div class="mb-5">
                 <label
                   for="username"

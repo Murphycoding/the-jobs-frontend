@@ -1,6 +1,40 @@
-import React from 'react';
+import React, { useState,useEffect  } from 'react';
+import JobSeekerAuthService from "../../services/jobseeker_auth.service";
+import JobSeekerService from "../../services/jobseeker.service";
+import { useNavigate  } from "react-router-dom";
 
 const JobSeekerDashboard = () => {
+
+  const [loading, setLoading] = useState(false); 
+  const [error, setError] = useState(false);
+  const currentUser = JobSeekerAuthService.getCurrentUser();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (currentUser && currentUser.roles) {
+      const isConsultant = currentUser.roles.includes("ROLE_jOB_SEEKER");
+
+      JobSeekerService.getDashboard().then(
+        (response) => {
+          console.log(response.data);
+          if(response.data == null){
+            navigate("/job-seeker/profile");
+          }
+        },
+        (error) => {
+          const _content =
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
+        }
+      );
+
+      setLoading(true);
+      setError(!isConsultant);
+    }
+  }, [currentUser]);
+
 
 return (
   <div>

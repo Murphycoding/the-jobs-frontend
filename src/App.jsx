@@ -35,11 +35,11 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="job-seeker/login" element={<JobSeekerLogin />} />
         <Route path="job-seeker/signup" element={<JobSeekerSignup />} />    
-        <Route path="job-seeker/signup/profile" element={<JobSeekerSetupProfile />} /> 
+        <Route path="job-seeker/profile" element={<JobSeekerSetupProfile />} /> 
         <Route path="admin/login" element={<AdminLogin />} />
         <Route path="consultant/login" element={<ConsultantLogin />} />
         <Route path="consultant/signup" element={<ConsultantSignup />} />
-        <Route path="consultant/signup/profile" element={<ConsultantSetupProfile />} />
+        <Route path="consultant/profile" element={<ConsultantSetupProfile />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboard />} />
