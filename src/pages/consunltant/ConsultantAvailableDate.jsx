@@ -21,10 +21,11 @@ const ConsultantAvailableDate = () => {
     <div>
       <div class="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
         <div class="mb-10">
-          <p class="text-gray-400">Pick Your Time Slot</p>
+         
           <p class="text-3xl font-extrabold tracking-tight text-slate-900">
-            Available
+            Availability
           </p>
+          <p class="text-gray-400">Pick Your Time Slot</p>
         </div>
         <div class="flex flex-wrap -mx-3 mb-6">
           <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">

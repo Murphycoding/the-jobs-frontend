@@ -481,9 +481,10 @@ export const links = [
         icon: <IoMdContacts />,
       },
       {
-        name:'Get Appointment',
+        name:'View Session',
         icon: <RiContactsLine />,
       },
+
       
     ],
   },
