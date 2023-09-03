@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import JobSeekerService from "../../services/consunltant_auth.service";
 
@@ -35,7 +35,7 @@ const ConsultantLogin = () => {
         <div class="bg-white rounded-lg overflow-hidden shadow-2xl">
           <div class="p-8">
             <div className=" h3  text-center">Consunltant</div>
-            <form method="POST" class="" action="#" onSubmit={handleLogin}>
+            <form onSubmit={handleLogin}>
             <div class="mb-5">
                 <label
                   for="username"
@@ -64,6 +64,8 @@ const ConsultantLogin = () => {
                 <input
                   type="text"
                   name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   class="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"
                 />
               </div>
