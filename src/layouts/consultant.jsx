@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Sidebar from "../pages/consunltant/components/Sidebar";
-import AdminNavbar from "../pages/consunltant/components/AdminNavbar";
+import Sidebar from "../pages/consultant/components/Sidebar";
+import AdminNavbar from "../pages/consultant/components/AdminNavbar";
 
 export default () => {
 

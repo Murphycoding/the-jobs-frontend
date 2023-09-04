@@ -1,6 +1,6 @@
 import { Link, useNavigate  } from "react-router-dom";
 import React, { useState } from "react";
-import ConsunltantService from "../../services/consunltant_auth.service";
+import ConsunltantService from "../../services/consultant_auth.service";
 
 const Consunltantsignup = () => {
   const [username, setUsername] = useState("");

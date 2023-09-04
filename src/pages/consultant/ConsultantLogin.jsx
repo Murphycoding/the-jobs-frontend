@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
-import JobSeekerService from "../../services/consunltant_auth.service";
+import JobSeekerService from "../../services/consultant_auth.service";
 
 const ConsultantLogin = () => {
   const [username, setUsername] = useState("");
