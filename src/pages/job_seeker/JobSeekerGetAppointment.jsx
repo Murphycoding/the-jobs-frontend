@@ -1,8 +1,36 @@
-import React from "react";
+import React, { useState,useEffect  } from 'react';
 
 const JobSeekerGetAppointment = () => {
+  const [availableDates, setAvailableDates] = useState([]); 
+  const currentUser = JobSeekerAuthService.getCurrentUser();
+  const [isFirstRender, setIsFirstRender] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isFirstRender) {
+      return; // Skip the first render
+    }
+    setIsFirstRender(true);
+
+    JobSeekerService.getDashboard().then(
+      (response) => {
+        console.log(response.data);
+        if(response.data == null){
+          navigate("/job-seeker/profile");
+        }
+      },
+      (error) => {
+        const _content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+      }
+    );
+    
+  });
   return (
-    <body>
+    
       <div class="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
         <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col">
           <div class="-mx-3 md:flex mb-6">
@@ -84,7 +112,7 @@ const JobSeekerGetAppointment = () => {
             </table>
         </div>
       </div>
-    </body>
+   
     
   );
 };

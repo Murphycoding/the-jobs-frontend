@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import AvailableTimeService from "../../services/available_time.service";
+
 
 const ConsultantAvailableDate = () => {
   const [temporaryData, setTemporaryData] = useState([]);
@@ -15,6 +17,21 @@ const ConsultantAvailableDate = () => {
   const handleAddData = () => {
     setTemporaryData([...temporaryData, inputData]);
     setInputData({ date: "", start_time: "", end_time: "" });
+  };
+
+  const submitList = (event) => {
+    event.preventDefault();
+    // Perform login logic here
+   
+    AvailableTimeService.save(temporaryData).then(
+      () => {
+        
+        console.log("done");
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   };
 
   return (
@@ -59,7 +76,7 @@ const ConsultantAvailableDate = () => {
               id="grid-last-name"
               type="time"
               name="start_time"
-              value={inputData.start_time}
+              value={inputData.start_time+":00"}
               onChange={handleInputChange}
               placeholder="Start Time"
             />
@@ -76,7 +93,7 @@ const ConsultantAvailableDate = () => {
               id="grid-last-name"
               type="time"
               name="end_time"
-              value={inputData.end_time}
+              value={inputData.end_time+":00"}
               onChange={handleInputChange}
               placeholder="End Time"
             />
@@ -154,7 +171,7 @@ const ConsultantAvailableDate = () => {
               </table>
             </div>
             <div class="float-right ">
-              <button class=" appearance-none block w-full bg-gray-700 text-white border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-teal-500 focus:border-gray-500 content-end">
+              <button onClick={submitList} class=" appearance-none block w-full bg-gray-700 text-white border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-teal-500 focus:border-gray-500 content-end">
                 Update
               </button>
             </div>

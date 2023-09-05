@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.0.18",
     "@phosphor-icons/react": "^2.0.10",
     "@syncfusion/ej2-react-popups": "^22.2.5",
     "axios": "^1.4.0",

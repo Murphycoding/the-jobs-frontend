@@ -1,17 +1,24 @@
 import React, { useState,useEffect  } from 'react';
 import JobSeekerAuthService from "../../services/jobseeker_auth.service";
 import JobSeekerService from "../../services/jobseeker.service";
-import { useNavigate  } from "react-router-dom";
+import ConsultantService from "../../services/consultant.service";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const JobSeekerDashboard = () => {
 
   const [loading, setLoading] = useState(false); 
   const [error, setError] = useState(false);
   const currentUser = JobSeekerAuthService.getCurrentUser();
+  const [consultantList, setConsultantList] = useState([]); 
+  const [isFirstRender, setIsFirstRender] = useState(false);
 
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (isFirstRender) {
+      return; 
+    }
+    setIsFirstRender(true);
     if (currentUser && currentUser.roles) {
       const isConsultant = currentUser.roles.includes("ROLE_jOB_SEEKER");
 
@@ -21,6 +28,19 @@ const JobSeekerDashboard = () => {
           if(response.data == null){
             navigate("/job-seeker/profile");
           }
+        },
+        (error) => {
+          const _content =
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
+        }
+      );
+
+      ConsultantService.getAll().then(
+        (response) => {
+          console.log(response.data);
+          setConsultantList(response.data);
         },
         (error) => {
           const _content =
@@ -56,6 +76,7 @@ return (
             </tr>
           </thead>
           <tbody class="text-gray-600 text-sm font-light">
+          {consultantList.map((item) => (
             <tr class="border-b border-gray-200 hover:bg-gray-100">
               <td class="py-3 px-6 text-left whitespace-nowrap">
                 <div class="flex items-center">
@@ -84,7 +105,7 @@ return (
                           <circle cx="24" cy="24" r="4" fill="#80deea"></circle>
                         </svg> */}
                   </div>
-                  <span class="font-medium">Nisal Tharuka</span>
+                  <span class="font-medium">{item.first_name} {item.last_name}</span>
                 </div>
               </td>
               <td class="py-3 px-6 text-left">
@@ -99,9 +120,13 @@ return (
               <span>UI/UX  Designer </span>
               </td>
               <td class="py-3 px-6 text-center">
-                <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">
-                  Active
-                </span>
+              <NavLink
+                    to={`/job-seeker/viewprofiles/${item.id}`}>view</NavLink>
+                {/* <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">
+                {item.map((item) => (
+
+                ))}
+                </span> */}
               </td>
               <td class="py-3 px-6 text-center">
                 <div class="flex item-center justify-center">
@@ -119,6 +144,7 @@ return (
                 </div>
               </td>
             </tr>
+            ))}
           </tbody>
         </table>
       </div>

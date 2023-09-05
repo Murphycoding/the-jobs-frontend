@@ -19,6 +19,7 @@ import JobSeekerSignup from "./pages/job_seeker/JobseekerSignup";
 import JobSeekerSetupProfile from "./pages/job_seeker/JobSeekerSetupProfile";
 import JobSeekerDashboard from "./pages/job_seeker/JobSeekerDashboard";
 import JobSeekerGetAppointment from "./pages/job_seeker/JobSeekerGetAppointment";
+import ViewProfiles from "./pages/job_seeker/ViewProfiles";
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
       <Route path="/job-seeker" element={<JobSeekerLayout />}>
         <Route index element={<JobSeekerDashboard />} />
         <Route path="appoinment" element={<JobSeekerGetAppointment />} />
+        <Route path="viewprofiles/:id" element={<ViewProfiles />} />
       </Route>
       
       <Route path="/consultant" element={<ConsultantLayout />}>
