@@ -1,5 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
+import AdminService from "../../services/admin_auth.service";
 
 const AdminLogin = () => {
   const [username, setUsername] = useState("");
@@ -7,7 +8,35 @@ const AdminLogin = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
+  const navigate = useNavigate();
 
+  // Function to handle login button click
+  const handleLogin = (event) => {
+    event.preventDefault();
+    // Perform login logic here
+    console.log("Login button clicked");
+    console.log("Username:", username);
+    console.log("Password:", password);
+
+    
+    AdminService.login(username, password).then(
+      (res) => {
+        setUsername("");
+        setPassword("");
+        if(res.roles.includes("ROLE_ADMIN")){
+          navigate("/admin");
+        }else{
+          setLoading(false);
+          setMessage("You are not admin");
+        }
+      },
+      (error) => {
+        setLoading(false);
+        console.log(error);
+        setMessage("Invalid username or password");
+      }
+    );
+  };
 
   return (
     <div class="container mx-auto p-8 mt-44 flex">
@@ -15,7 +44,29 @@ const AdminLogin = () => {
         <div class="bg-white rounded-lg overflow-hidden shadow-2xl">
           <div class="p-8">
             <div className=" h3  text-center">Admin</div>
-            <form  >
+            {message && (
+              <div
+                class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                role="alert"
+              >
+                <strong class="font-bold">ERROR </strong>
+                <span class="block sm:inline">
+                {message}
+                </span>
+                {/* <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                  <svg
+                    class="fill-current h-6 w-6 text-red-500"
+                    role="button"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <title>Close</title>
+                    <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+                  </svg>
+                </span> */}
+              </div>
+            )}
+            <form  onSubmit={handleLogin}>
               <div class="mb-5">
                 <label
                   for="email"
@@ -27,6 +78,8 @@ const AdminLogin = () => {
                 <input
                   type="text"
                   name="email"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                   class="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"
                 />
               </div>
@@ -42,11 +95,13 @@ const AdminLogin = () => {
                 <input
                   type="text"
                   name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   class="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"
                 />
               </div>
 
-              <button class="w-full p-3 mt-4 bg-color2 text-white rounded shadow">
+              <button disabled={loading} class="w-full p-3 mt-4 bg-color2 text-white rounded shadow">
                 Login
               </button>
             </form>

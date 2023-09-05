@@ -19,7 +19,8 @@ const JobSeekerSetupProfile = () => {
 
   const handleLogin = (event) => {
     event.preventDefault();
-    // Perform login logic here
+    setLoading(true);
+    
     console.log(jobtype);
 
     JobSeekerService.profile(firstname,lastname,dob,gender,address,contactnumber,nic,jobtype).then(
@@ -28,7 +29,9 @@ const JobSeekerSetupProfile = () => {
         navigate("/job-seeker");
       },
       (error) => {
+        setLoading(false);
         console.log(error);
+        alert("Invalid username or password");
       }
     );
   };
