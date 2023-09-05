@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import JobSeekerService from "../../services/jobseeker_auth.service";
+import InputField from "./components/InputField";
 
 const JobSeekerLogin = () => {
   const [username, setUsername] = useState("");
@@ -39,6 +40,7 @@ const JobSeekerLogin = () => {
     );
   };
 
+
   return (
     <div class="container mx-auto p-8 mt-44 flex">
       <div class="max-w-md w-full mx-auto">
@@ -69,20 +71,7 @@ const JobSeekerLogin = () => {
             )}
             <form onSubmit={handleLogin}>
               <div class="mb-5">
-                <label
-                  for="username"
-                  class="block mb-2 text-sm font-medium text-gray-600"
-                >
-                  username
-                </label>
-
-                <input
-                  type="text"
-                  name="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  class="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"
-                />
+              <InputField onInputChange={(e) => setUsername(e.target.value)} />
               </div>
 
               <div class="mb-5">

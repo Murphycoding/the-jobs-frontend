@@ -1,13 +1,66 @@
 import React, { useState, useEffect } from "react";
+import AdminAuthService from "../../services/admin_auth.service";
+import AdminService from "../../services/admin.service";
+import ConsultantService from "../../services/consultant.service";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const currentUser = AdminAuthService.getCurrentUser();
+  const [consultantList, setConsultantList] = useState([]);
+  const [isFirstRender, setIsFirstRender] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isFirstRender) {
+      return;
+    }
+    setIsFirstRender(true);
+
+    if (currentUser && currentUser.roles) {
+      const isAdmin = currentUser.roles.includes("ROLE_jOB_SEEKER");
+
+      setLoading(true);
+      setError(!isAdmin);
+    }
+    ConsultantService.getAll().then(
+      (response) => {
+        console.log(response.data);
+        setConsultantList(response.data);
+      },
+      (error) => {
+        const _content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+      }
+    );
+  }, [currentUser]);
+
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const openEditModal = (item) => {
+    console.log("asdsad");
+    setSelectedItem(item);
+    setIsEditModalOpen(true);
+  };
+
+  const openDeleteModal = (item) => {
+    setSelectedItem(item);
+    setIsDeleteModalOpen(true);
+  };
+
   return (
     <div>
       <div class="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
         <div class="mb-10">
-          
           <p class="text-3xl font-extrabold tracking-tight text-slate-900">
-          Manage  Consultant Dashboard
+            Manage Consultant Dashboard
           </p>
         </div>
         <table class="min-w-max w-full table-auto">
@@ -21,11 +74,12 @@ const AdminDashboard = () => {
             </tr>
           </thead>
           <tbody class="text-gray-600 text-sm font-light">
-            <tr class="border-b border-gray-200 hover:bg-gray-100">
-              <td class="py-3 px-6 text-left whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="mr-2">
-                    {/* <svg
+            {consultantList.map((item) => (
+              <tr class="border-b border-gray-200 hover:bg-gray-100">
+                <td class="py-3 px-6 text-left whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="mr-2">
+                      {/* <svg
                           xmlns="http://www.w3.org/2000/svg"
                           x="0px"
                           y="0px"
@@ -48,101 +102,236 @@ const AdminDashboard = () => {
                           ></path>
                           <circle cx="24" cy="24" r="4" fill="#80deea"></circle>
                         </svg> */}
+                    </div>
+                    <span class="font-medium">
+                      {item.first_name} {item.last_name}
+                    </span>
                   </div>
-                  <span class="font-medium">React Project</span>
-                </div>
-              </td>
-              <td class="py-3 px-6 text-left">
-                <div class="flex items-center">
-                  <div class="mr-2">
-                    <img
-                      class="w-6 h-6 rounded-full"
-                      src="https://randomuser.me/api/portraits/men/1.jpg"
-                    />
+                </td>
+                <td class="py-3 px-6 text-left">
+                  <div class="flex items-center">
+                    <div class="mr-2"></div>
+                    <span>UK</span>
                   </div>
-                  <span>Eshal Rosas</span>
-                </div>
-              </td>
-              <td class="py-3 px-6 text-center">
-                <div class="flex items-center justify-center">
-                  <img
-                    class="w-6 h-6 rounded-full border-gray-200 border transform hover:scale-125"
-                    src="https://randomuser.me/api/portraits/men/1.jpg"
-                  />
-                  <img
-                    class="w-6 h-6 rounded-full border-gray-200 border -m-1 transform hover:scale-125"
-                    src="https://randomuser.me/api/portraits/women/2.jpg"
-                  />
-                  <img
-                    class="w-6 h-6 rounded-full border-gray-200 border -m-1 transform hover:scale-125"
-                    src="https://randomuser.me/api/portraits/men/3.jpg"
-                  />
-                </div>
-              </td>
-              <td class="py-3 px-6 text-center">
-                <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">
-                  Active
-                </span>
-              </td>
-              <td class="py-3 px-6 text-center">
-                <div class="flex item-center justify-center">
-                  <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                      />
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                      />
-                    </svg>
+                </td>
+                <td class="py-3 px-6 text-center">
+                  <span>UI/UX Designer </span>
+                </td>
+                <td class="py-3 px-6 text-center">
+                  <NavLink to={`/job-seeker/viewprofiles/${item.id}`}>
+                    view
+                  </NavLink>
+                  {/* <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">
+                {item.map((item) => (
+
+                ))}
+                </span> */}
+                </td>
+                <td class="py-3 px-6 text-center">
+                  <button onClick={() => openEditModal(item)}>Edit</button>
+                  <button onClick={() => openDeleteModal(item)}>Delete</button>
+                  <div class="flex item-center justify-center">
+                    <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                        />
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                        />
+                      </svg>
+                    </div>
+                    <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                        />
+                      </svg>
+                    </div>
+                    <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
+                      </svg>
+                    </div>
                   </div>
-                  <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                      />
-                    </svg>
-                  </div>
-                  <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                      />
-                    </svg>
-                  </div>
-                </div>
-              </td>
-            </tr>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
+      {isDeleteModalOpen ? (
+        <>
+          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              {/*content*/}
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                {/*header*/}
+                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                  <h3 className="text-3xl font-semibold">Modal Title</h3>
+                  <button
+                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    onClick={() => setShowModal(false)}
+                  >
+                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                      ×
+                    </span>
+                  </button>
+                </div>
+                {/*body*/}
+                <div className="relative p-6 flex-auto">
+                  <p className="my-4 text-slate-500 text-lg leading-relaxed">
+                    I always felt like I could do anything. That’s the main
+                    thing people are controlled by! Thoughts- their perception
+                    of themselves! They're slowed down by their perception of
+                    themselves. If you're taught you can’t do anything, you
+                    won’t do anything. I was taught I could do everything.
+                  </p>
+                </div>
+                {/*footer*/}
+                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                  <button
+                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => setIsDeleteModalOpen(false)}
+                  >
+                    Close
+                  </button>
+                  <button
+                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => setIsDeleteModalOpen(false)}
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </>
+      ) : null}
+      {isEditModalOpen ? (
+        <>
+          <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              {/*content*/}
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                {/*header*/}
+                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                  <h3 className="text-3xl font-semibold">Modal Title</h3>
+                  <button
+                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    onClick={() => setIsEditModalOpen(false)}
+                  >
+                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                      ×
+                    </span>
+                  </button>
+                </div>
+                {/*body*/}
+                <div className="relative p-6 flex-auto">
+                  <div class="mb-4 md:w-full">
+                    <label for="email" class="block text-xs mb-1">
+                     Consultant Name
+                    </label>
+                    <input
+                      class="w-full border rounded p-2 outline-none focus:shadow-outline"
+                      type="email"
+                      name="email"
+                      id="email"
+                      placeholder="Consultant Name"
+                    />
+                  </div>
+                  <div class="mb-4 md:w-full">
+                    <label for="email" class="block text-xs mb-1">
+                      Specific Country
+                    </label>
+                    <input
+                      class="w-full border rounded p-2 outline-none focus:shadow-outline"
+                      type="email"
+                      name="email"
+                      id="email"
+                      placeholder="Specific Country"
+                    />
+                  </div>
+                  <div class="mb-4 md:w-full">
+                    <label for="email" class="block text-xs mb-1">
+                    Specific Job
+                    </label>
+                    <input
+                      class="w-full border rounded p-2 outline-none focus:shadow-outline"
+                      type="email"
+                      name="email"
+                      id="email"
+                      placeholder=" Specific Job"
+                    />
+                  </div>
+                  <div class="mb-4 md:w-full">
+                    <label for="email" class="block text-xs mb-1">
+                      Free Time
+                    </label>
+                    <input
+                      class="w-full border rounded p-2 outline-none focus:shadow-outline"
+                      type="email"
+                      name="email"
+                      id="email"
+                      placeholder=" Free Time"
+                    />
+                  </div>
+                </div>
+                {/*footer*/}
+                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                  <button
+                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => setIsEditModalOpen(false)}
+                  >
+                    Close
+                  </button>
+                  <button
+                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => setIsEditModalOpen(false)}
+                  >
+                    Save Changes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </>
+      ) : null}
     </div>
   );
 };
