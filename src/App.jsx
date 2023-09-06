@@ -11,6 +11,7 @@ import ConsultantLayout from "./layouts/consultant";
 import ConsultantLogin from "./pages/consultant/ConsultantLogin";
 import ConsultantSignup from "./pages/consultant/ConsultantSignup";
 import ConsultantDashboard from "./pages/consultant/ConsultantDashboard";
+import AcceptRequest from "./pages/consultant/AcceptRequest";
 import ConsultantAvailableDate from "./pages/consultant/ConsultantAvailableDate";
 import ConsultantSetupProfile from "./pages/consultant/ConsultantSetupProfile";
 import JobSeekerLayout from "./layouts/job_seeker";
@@ -54,6 +55,7 @@ function App() {
       <Route path="/consultant" element={<ConsultantLayout />}>
         <Route index element={<ConsultantDashboard />} />
         <Route path="availabledate" element={<ConsultantAvailableDate />} />
+        <Route path="acceptrequest" element={<AcceptRequest/>} />
       </Route>
     </Routes>
   );
