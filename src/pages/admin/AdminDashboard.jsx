@@ -128,8 +128,7 @@ const AdminDashboard = () => {
                 </span> */}
                 </td>
                 <td class="py-3 px-6 text-center">
-                  <button onClick={() => openEditModal(item)}>Edit</button>
-                  <button onClick={() => openDeleteModal(item)}>Delete</button>
+                  
                   <div class="flex item-center justify-center">
                     <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                       <svg
@@ -154,6 +153,7 @@ const AdminDashboard = () => {
                     </div>
                     <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                       <svg
+                       onClick={() => openEditModal(item)}
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -169,6 +169,7 @@ const AdminDashboard = () => {
                     </div>
                     <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                       <svg
+                       onClick={() => openDeleteModal(item)}
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -197,7 +198,7 @@ const AdminDashboard = () => {
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  <h3 className="text-3xl font-semibold">Modal Title</h3>
+                  <h3 className="text-3xl font-semibold"></h3>
                   <button
                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                     onClick={() => setShowModal(false)}
@@ -248,7 +249,7 @@ const AdminDashboard = () => {
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
                 <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  <h3 className="text-3xl font-semibold">Modal Title</h3>
+                  <h3 className="text-3xl font-semibold">Manage Consultant</h3>
                   <button
                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
                     onClick={() => setIsEditModalOpen(false)}

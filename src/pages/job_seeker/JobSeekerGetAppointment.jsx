@@ -2,10 +2,10 @@ import React, { useState,useEffect  } from 'react';
 
 const JobSeekerGetAppointment = () => {
   const [availableDates, setAvailableDates] = useState([]); 
-  const currentUser = JobSeekerAuthService.getCurrentUser();
+  // const currentUser = JobSeekerAuthService.getCurrentUser();
   const [isFirstRender, setIsFirstRender] = useState(false);
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     if (isFirstRender) {
@@ -13,20 +13,20 @@ const JobSeekerGetAppointment = () => {
     }
     setIsFirstRender(true);
 
-    JobSeekerService.getDashboard().then(
-      (response) => {
-        console.log(response.data);
-        if(response.data == null){
-          navigate("/job-seeker/profile");
-        }
-      },
-      (error) => {
-        const _content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
-      }
-    );
+    // JobSeekerService.getDashboard().then(
+    //   (response) => {
+    //     console.log(response.data);
+    //     if(response.data == null){
+    //       navigate("/job-seeker/profile");
+    //     }
+    //   },
+    //   (error) => {
+    //     const _content =
+    //       (error.response && error.response.data) ||
+    //       error.message ||
+    //       error.toString();
+    //   }
+    // );
     
   });
   return (
@@ -49,20 +49,7 @@ const JobSeekerGetAppointment = () => {
             </div>
           </div>
           <div class="-mx-3 md:flex mb-6">
-            <div class="md:w-1/3 px-3">
-              <label
-                class="uppercase tracking-wide text-black text-xs font-bold mb-2"
-                for="application-link"
-              >
-                Appoinment Link*
-              </label>
-              <input
-                class="w-full bg-gray-200 text-black border border-gray-200 rounded py-3 px-4 mb-3"
-                id="application-link"
-                type="text"
-                placeholder="http://...."
-              />
-            </div>
+           
           </div>
           <table class="min-w-full leading-normal">
                 <thead>
@@ -86,21 +73,21 @@ const JobSeekerGetAppointment = () => {
                       <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <div class="flex">
                           <p class="text-gray-900 whitespace-no-wrap">
-                        asd
+                        2023-09-05
                           </p>
                         </div>
                       </td>
                       <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <div class="flex">
                           <p class="text-gray-900 whitespace-no-wrap">
-                            fdg
+                          11.00
                           </p>
                         </div>
                       </td>
                       <td class="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                         <div class="flex">
                           <p class="text-gray-900 whitespace-no-wrap">
-                            425424
+                            15.00
                           </p>
                         </div>
                       </td>

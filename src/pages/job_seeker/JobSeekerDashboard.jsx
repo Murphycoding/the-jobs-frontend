@@ -1,22 +1,24 @@
-import React, { useState,useEffect  } from 'react';
+import React, { useState, useEffect } from "react";
 import JobSeekerAuthService from "../../services/jobseeker_auth.service";
 import JobSeekerService from "../../services/jobseeker.service";
 import ConsultantService from "../../services/consultant.service";
+import AvailableTimeService from "../../services/available_time.service";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const JobSeekerDashboard = () => {
-
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const currentUser = JobSeekerAuthService.getCurrentUser();
-  const [consultantList, setConsultantList] = useState([]); 
+  const [consultantList, setConsultantList] = useState([]);
   const [isFirstRender, setIsFirstRender] = useState(false);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isFirstRender) {
-      return; 
+      return;
     }
     setIsFirstRender(true);
     if (currentUser && currentUser.roles) {
@@ -25,7 +27,7 @@ const JobSeekerDashboard = () => {
       JobSeekerService.getDashboard().then(
         (response) => {
           console.log(response.data);
-          if(response.data == null){
+          if (response.data == null) {
             navigate("/job-seeker/profile");
           }
         },
@@ -55,13 +57,22 @@ const JobSeekerDashboard = () => {
     }
   }, [currentUser]);
 
+  const openEditModal = (id) => {
+    AvailableTimeService.getavailable_time(id).then(
+      (response) => {
+        setSelectedItem(response.data);
+        setIsViewModalOpen(true);
+      },
+      (error) => {}
+    );
+  };
 
-return (
-  <div>
+  return (
+    <div>
       <div class="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
         <div class="mb-10">
           <p class="text-3xl font-extrabold tracking-tight text-slate-900">
-          Consultants
+            Consultants
           </p>
           <h1>Choose Destination And Choose Your JObtype. </h1>
         </div>
@@ -76,80 +87,90 @@ return (
             </tr>
           </thead>
           <tbody class="text-gray-600 text-sm font-light">
-          {consultantList.map((item) => (
-            <tr class="border-b border-gray-200 hover:bg-gray-100">
-              <td class="py-3 px-6 text-left whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="mr-2">
-                    {/* <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          x="0px"
-                          y="0px"
-                          width="24"
-                          height="24"
-                          viewBox="0 0 48 48"
-                          style=" fill:#000000;"
-                        >
-                          <path
-                            fill="#80deea"
-                            d="M24,34C11.1,34,1,29.6,1,24c0-5.6,10.1-10,23-10c12.9,0,23,4.4,23,10C47,29.6,36.9,34,24,34z M24,16	c-12.6,0-21,4.1-21,8c0,3.9,8.4,8,21,8s21-4.1,21-8C45,20.1,36.6,16,24,16z"
-                          ></path>
-                          <path
-                            fill="#80deea"
-                            d="M15.1,44.6c-1,0-1.8-0.2-2.6-0.7C7.6,41.1,8.9,30.2,15.3,19l0,0c3-5.2,6.7-9.6,10.3-12.4c3.9-3,7.4-3.9,9.8-2.5	c2.5,1.4,3.4,4.9,2.8,9.8c-0.6,4.6-2.6,10-5.6,15.2c-3,5.2-6.7,9.6-10.3,12.4C19.7,43.5,17.2,44.6,15.1,44.6z M32.9,5.4	c-1.6,0-3.7,0.9-6,2.7c-3.4,2.7-6.9,6.9-9.8,11.9l0,0c-6.3,10.9-6.9,20.3-3.6,22.2c1.7,1,4.5,0.1,7.6-2.3c3.4-2.7,6.9-6.9,9.8-11.9	c2.9-5,4.8-10.1,5.4-14.4c0.5-4-0.1-6.8-1.8-7.8C34,5.6,33.5,5.4,32.9,5.4z"
-                          ></path>
-                          <path
-                            fill="#80deea"
-                            d="M33,44.6c-5,0-12.2-6.1-17.6-15.6C8.9,17.8,7.6,6.9,12.5,4.1l0,0C17.4,1.3,26.2,7.8,32.7,19	c3,5.2,5,10.6,5.6,15.2c0.7,4.9-0.3,8.3-2.8,9.8C34.7,44.4,33.9,44.6,33,44.6z M13.5,5.8c-3.3,1.9-2.7,11.3,3.6,22.2	c6.3,10.9,14.1,16.1,17.4,14.2c1.7-1,2.3-3.8,1.8-7.8c-0.6-4.3-2.5-9.4-5.4-14.4C24.6,9.1,16.8,3.9,13.5,5.8L13.5,5.8z"
-                          ></path>
-                          <circle cx="24" cy="24" r="4" fill="#80deea"></circle>
-                        </svg> */}
+            {consultantList.map((item) => (
+              <tr class="border-b border-gray-200 hover:bg-gray-100">
+                <td class="py-3 px-6 text-left whitespace-nowrap">
+                  <div class="flex items-center">
+                    <span class="font-medium">
+                      {item.first_name} {item.last_name}
+                    </span>
                   </div>
-                  <span class="font-medium">{item.first_name} {item.last_name}</span>
-                </div>
-              </td>
-              <td class="py-3 px-6 text-left">
-                <div class="flex items-center">
-                  <div class="mr-2">
-                   
+                </td>
+                <td class="py-3 px-6 text-left">
+                  <div class="flex items-center">
+                    <div class="mr-2"></div>
+                    <span>UK</span>
                   </div>
-                  <span>UK</span>
-                </div>
-              </td>
-              <td class="py-3 px-6 text-center">
-              <span>UI/UX  Designer </span>
-              </td>
-              <td class="py-3 px-6 text-center">
-              <NavLink
-                    to={`/job-seeker/viewprofiles/${item.id}`}>view</NavLink>
-                {/* <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">
+                </td>
+                <td class="py-3 px-6 text-center">
+                  <span>UI/UX Designer </span>
+                </td>
+                <td class="py-3 px-6 text-center">
+                  <button onClick={() => openEditModal(item.id)}>view</button>
+                  {/* <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">
                 {item.map((item) => (
 
                 ))}
                 </span> */}
-              </td>
-              <td class="py-3 px-6 text-center">
-                <div class="flex item-center justify-center">
-                  <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                  <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">
-                  Active
-                </span>
+                </td>
+                <td class="py-3 px-6 text-center">
+                  <div class="flex item-center justify-center">
+                    <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
+                      <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">
+                        Booking
+                      </span>
+                    </div>
+                    <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110"></div>
+                    <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110"></div>
                   </div>
-                  <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                  
-                  </div>
-                  <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                    
-                  </div>
-                </div>
-              </td>
-            </tr>
+                </td>
+              </tr>
             ))}
           </tbody>
         </table>
+        {isViewModalOpen ? (
+          <>
+            <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+              <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                {/*content*/}
+                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                  {/*header*/}
+                  <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                    <h3 className="text-3xl font-semibold"></h3>
+                    <button
+                      className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                      onClick={() => setShowModal(false)}
+                    >
+                      <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                        ×
+                      </span>
+                    </button>
+                  </div>
+                  {/*body*/}
+                  <div className="relative p-6 flex-auto">
+                    {selectedItem.map((item) => (
+                      <input type="text" name="" value={item.start_at} id="" />
+                    ))}
+                  </div>
+                  {/*footer*/}
+                  <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                    <button
+                      className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={() => setIsViewModalOpen(false)}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          </>
+        ) : null}
       </div>
     </div>
-);
+  );
 };
 
 export default JobSeekerDashboard;

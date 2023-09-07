@@ -71,7 +71,21 @@ const JobSeekerLogin = () => {
             )}
             <form onSubmit={handleLogin}>
               <div class="mb-5">
-              <InputField onInputChange={(e) => setUsername(e.target.value)} />
+              {/* <InputField onInputChange={(e) => setUsername(e.target.value)} /> */}
+              <label
+                  for="password"
+                  class="block mb-2 text-sm font-medium text-gray-600"
+                >
+                  User Name
+                </label>
+
+                <input
+                  type="text"
+                  name="username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  class="block w-full p-3 rounded bg-gray-200 border border-transparent focus:outline-none"
+                />
               </div>
 
               <div class="mb-5">
@@ -83,7 +97,7 @@ const JobSeekerLogin = () => {
                 </label>
 
                 <input
-                  type="text"
+                  type="password"
                   name="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
