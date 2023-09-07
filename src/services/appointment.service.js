@@ -7,9 +7,12 @@ const save = (id) => {
     "id":id
   });
 };
+const getAll = () => {
+  return axios.get(API_URL + "all");
+};
 const  AppointmentService = {
-  save
-  
+  save,
+  getAll  
 }
 
 export default AppointmentService;
