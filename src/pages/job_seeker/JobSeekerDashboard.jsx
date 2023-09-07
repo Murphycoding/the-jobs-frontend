@@ -11,8 +11,9 @@ const JobSeekerDashboard = () => {
   const currentUser = JobSeekerAuthService.getCurrentUser();
   const [consultantList, setConsultantList] = useState([]);
   const [isFirstRender, setIsFirstRender] = useState(false);
-  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
   const navigate = useNavigate();
 
@@ -57,11 +58,31 @@ const JobSeekerDashboard = () => {
     }
   }, [currentUser]);
 
+  const openBookingModal = (id) => {
+    AvailableTimeService.getavailable_time(id).then(
+      (response) => {
+        setSelectedItem(response.data);
+        setIsBookingModalOpen(true);
+      },
+      (error) => {}
+    );
+  };
+
   const openEditModal = (id) => {
     AvailableTimeService.getavailable_time(id).then(
       (response) => {
         setSelectedItem(response.data);
         setIsViewModalOpen(true);
+      },
+      (error) => {}
+    );
+  };
+
+  const submitBooking = (id) => {
+    AvailableTimeService.getavailable_time(id).then(
+      (response) => {
+        setSelectedItem(response.data);
+        setIsBookingModalOpen(true);
       },
       (error) => {}
     );
@@ -114,16 +135,22 @@ const JobSeekerDashboard = () => {
                 </span> */}
                 </td>
                 <td class="py-3 px-6 text-center">
-                  <div class="flex item-center justify-center">
-                    <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
-                      <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">
-                        Booking
-                      </span>
-                    </div>
-                    <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110"></div>
-                    <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110"></div>
-                  </div>
+                  <button onClick={() => openBookingModal(item.id)}>
+                    Booking
+                  </button>
+                  {/* <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">
+                {item.map((item) => (
+
+                ))}
+                </span> */}
                 </td>
+                {/* <td class="py-3 px-6 text-center">
+                  <div class="flex item-center justify-center">
+                    <NavLink to="" className="text-gray-600">
+                      Booking
+                    </NavLink>
+                  </div>
+                </td> */}
               </tr>
             ))}
           </tbody>
@@ -160,6 +187,48 @@ const JobSeekerDashboard = () => {
                       onClick={() => setIsViewModalOpen(false)}
                     >
                       Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          </>
+        ) : null}
+        {isBookingModalOpen ? (
+          <>
+            <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+              <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                {/*content*/}
+                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                  {/*header*/}
+                  
+                  {/*body*/}
+                  <div className="relative p-6 flex-auto">
+                    <p class="text-gray-400">Before You booking ,read this
+                      <br/>
+                      You can't cancel the appoinment after booking 
+                      <br/>
+                      <p class="text-pink-400" >So, plase Confrom your Booking .</p>
+                      <br/>
+                      ThankYou!
+                    </p>
+                  </div>
+                  {/*footer*/}
+                  <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                    <button
+                      className="bg-gray-700 text-white active:bg-emerald-600 font-bold  text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={() => setIsBookingModalOpen(false)}
+                    >
+                      Close
+                    </button>
+                    <button
+                      className="bg-gray-700 text-white active:bg-emerald-600 font-bold  text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={() => setIsBookingModalOpen(false)}
+                    >
+                      Booking 
                     </button>
                   </div>
                 </div>
