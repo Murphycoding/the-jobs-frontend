@@ -3,16 +3,19 @@ import JobSeekerAuthService from "../../services/jobseeker_auth.service";
 import JobSeekerService from "../../services/jobseeker.service";
 import ConsultantService from "../../services/consultant.service";
 import AvailableTimeService from "../../services/available_time.service";
+import AppointmentService from "../../services/appointment.service";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const JobSeekerDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [message, setMessage] = useState(false);
   const currentUser = JobSeekerAuthService.getCurrentUser();
   const [consultantList, setConsultantList] = useState([]);
   const [isFirstRender, setIsFirstRender] = useState(false);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedID, setSelectedID] = useState(null);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -59,13 +62,9 @@ const JobSeekerDashboard = () => {
   }, [currentUser]);
 
   const openBookingModal = (id) => {
-    AvailableTimeService.getavailable_time(id).then(
-      (response) => {
-        setSelectedItem(response.data);
-        setIsBookingModalOpen(true);
-      },
-      (error) => {}
-    );
+    setSelectedID(id);
+    setIsBookingModalOpen(true);
+    console.log("sad");
   };
 
   const openEditModal = (id) => {
@@ -77,26 +76,51 @@ const JobSeekerDashboard = () => {
       (error) => {}
     );
   };
+  
+  const submitBooking = (event) => {
+    console.log("sad");
+    setLoading(true);
 
-  const submitBooking = (id) => {
-    AvailableTimeService.getavailable_time(id).then(
-      (response) => {
-        setSelectedItem(response.data);
-        setIsBookingModalOpen(true);
+    AppointmentService.save(selectedID).then(
+      (res) => {
+        setLoading(false);
+        setError(false);
+        setMessage("Your appointment has been scheduled successfully");
+        setIsBookingModalOpen(false);
       },
-      (error) => {}
+      (error) => {
+        setLoading(false);
+        setError(true);
+        console.log(error);
+        setMessage("ERROR ");
+        setIsBookingModalOpen(true);
+      }
     );
   };
-
   return (
     <div>
       <div class="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
         <div class="mb-10">
           <p class="text-3xl font-extrabold tracking-tight text-slate-900">
-            Consultants
+            Pick Your Consultants
           </p>
-          <h1>Choose Destination And Choose Your JObtype. </h1>
+          <h1>Choose Destination And Choose Your Jobtype. </h1>
         </div>
+        {message && (
+              <div
+              className={`${
+                error
+                  ? 'bg-red-100 border border-red-400 text-red-700'
+                  : 'bg-green-100 border border-green-400 text-green-700'
+              } px-4 py-3 rounded relative`}
+                role="alert"
+              >
+                <strong class="font-bold">{error?"ERROR":"SUCEESS"} </strong>
+                <span class="block sm:inline">
+                {message}
+                </span>
+              </div>
+            )}
         <table class="min-w-max w-full table-auto">
           <thead>
             <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
@@ -120,7 +144,7 @@ const JobSeekerDashboard = () => {
                 <td class="py-3 px-6 text-left">
                   <div class="flex items-center">
                     <div class="mr-2"></div>
-                    <span>UK</span>
+                    <span>United Kingdom</span>
                   </div>
                 </td>
                 <td class="py-3 px-6 text-center">
@@ -162,17 +186,7 @@ const JobSeekerDashboard = () => {
                 {/*content*/}
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                   {/*header*/}
-                  <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                    <h3 className="text-3xl font-semibold"></h3>
-                    <button
-                      className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                      onClick={() => setShowModal(false)}
-                    >
-                      <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                        ×
-                      </span>
-                    </button>
-                  </div>
+
                   {/*body*/}
                   <div className="relative p-6 flex-auto">
                     {selectedItem.map((item) => (
@@ -182,7 +196,7 @@ const JobSeekerDashboard = () => {
                   {/*footer*/}
                   <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                     <button
-                      className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      className="bg-gray-700 text-white active:bg-emerald-600 font-bold  text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                       type="button"
                       onClick={() => setIsViewModalOpen(false)}
                     >
@@ -202,15 +216,18 @@ const JobSeekerDashboard = () => {
                 {/*content*/}
                 <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                   {/*header*/}
-                  
+
                   {/*body*/}
                   <div className="relative p-6 flex-auto">
-                    <p class="text-gray-400">Before You booking ,read this
-                      <br/>
-                      You can't cancel the appoinment after booking 
-                      <br/>
-                      <p class="text-pink-400" >So, plase Confrom your Booking .</p>
-                      <br/>
+                    <p class="text-gray-400">
+                      Before You booking ,read this
+                      <br />
+                      You can't cancel the appoinment after booking
+                      <br />
+                      <p class="text-pink-400">
+                        So, plase Confrom your Booking .
+                      </p>
+                      <br />
                       ThankYou!
                     </p>
                   </div>
@@ -225,10 +242,10 @@ const JobSeekerDashboard = () => {
                     </button>
                     <button
                       className="bg-gray-700 text-white active:bg-emerald-600 font-bold  text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                      type="button"
-                      onClick={() => setIsBookingModalOpen(false)}
+                      value="Submit"
+                      onClick={() => submitBooking()}
                     >
-                      Booking 
+                      Booking2
                     </button>
                   </div>
                 </div>

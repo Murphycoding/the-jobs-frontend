@@ -1,18 +1,13 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5173/api/available_time/";
+const API_URL = "http://localhost:5173/api/appointment/";
 
-
-const getavailable_time= (id) => {
-  console.log("asdasdsadsad AS Das dds a:"+id);
-  return axios.get(API_URL+"consultant/"+id);
-};
-
-const save = (list) => {
-  return axios.post(API_URL + "save",list);
+const save = (id) => {
+  return axios.post(API_URL + "save",{
+    "id":id
+  });
 };
 const  AppointmentService = {
-  getavailable_time,
   save
   
 }
