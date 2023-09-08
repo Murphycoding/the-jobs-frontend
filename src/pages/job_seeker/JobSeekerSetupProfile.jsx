@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate  } from "react-router-dom";
 import JobSeekerService from "../../services/jobseeker.service";
+import JobSeekerAuthService from "../../services/jobseeker_auth.service";
 
 const JobSeekerSetupProfile = () => {
   const navigate = useNavigate();
@@ -29,6 +30,11 @@ const JobSeekerSetupProfile = () => {
         navigate("/job-seeker");
       },
       (error) => {
+        if (error.response && error.response.status === 401) {
+          console.log('Unauthorized error:', error);
+          JobSeekerAuthService.logout();
+          navigate("/job-seeker/login");
+        }
         setLoading(false);
         console.log(error);
         alert("Invalid username or password");

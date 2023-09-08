@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import AppointmentService from "../../services/appointment.service";
+import JobSeekerAuthService from "../../services/jobseeker_auth.service";
+import { Link, useNavigate } from "react-router-dom";
 
 const JobSeekerGetAppointment = () => {
+  const navigate = useNavigate();
   const [appointmentList, setAppointmentList] = useState([]);
   // const currentUser = JobSeekerAuthService.getCurrentUser();
   const [isFirstRender, setIsFirstRender] = useState(false);
@@ -18,6 +21,13 @@ const JobSeekerGetAppointment = () => {
       (response) => {
         console.log(response.data);
         setAppointmentList(response.data);
+      },
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          console.log('Unauthorized error:', error);
+          JobSeekerAuthService.logout();
+          navigate("/job-seeker/login");
+        }
       }
     );
   });

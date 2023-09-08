@@ -7,12 +7,23 @@ const save = (id) => {
     "id":id
   });
 };
+
+const   accepted = (id) => {
+  return axios.post(API_URL + "  accepted",{
+    "id":id
+  });
+};
 const getAll = () => {
-  return axios.get(API_URL + "all");
+  return axios.get(API_URL + "job-seeker");
+};
+const getAllConsultant = () => {
+  return axios.get(API_URL + "consultant");
 };
 const  AppointmentService = {
   save,
-  getAll  
+  getAll,
+  getAllConsultant,
+  accepted
 }
 
 export default AppointmentService;

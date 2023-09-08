@@ -5,13 +5,14 @@ import ConsultantService from "../../services/consultant.service";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const currentUser = AdminAuthService.getCurrentUser();
   const [consultantList, setConsultantList] = useState([]);
   const [isFirstRender, setIsFirstRender] = useState(false);
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (isFirstRender) {
@@ -36,7 +37,13 @@ const AdminDashboard = () => {
           error.message ||
           error.toString();
       }
-    );
+    ),
+    (error) => {
+      if (error.response && error.response.status === 401) {
+        console.log('Unauthorized error:', error);
+        AdminAuthService.logout();
+      }
+    };;
   }, [currentUser]);
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import AvailableTimeService from "../../services/available_time.service";
+import ConsultantAuthService from "../../services/consultant_auth.service";
+import { Link, useNavigate } from "react-router-dom";
 
 
 const ConsultantAvailableDate = () => {
+  const navigate = useNavigate();
   const [temporaryData, setTemporaryData] = useState([]);
   const [inputData, setInputData] = useState({
     date: "",
@@ -31,7 +34,13 @@ const ConsultantAvailableDate = () => {
       (error) => {
         console.log(error);
       }
-    );
+    ),
+    (error) => {
+      if (error.response && error.response.status === 401) {
+        console.log('Unauthorized error:', error);
+        ConsultantAuthService.logout();
+      }
+    };
   };
 
   return (

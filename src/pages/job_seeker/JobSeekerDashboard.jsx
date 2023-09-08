@@ -4,12 +4,12 @@ import JobSeekerService from "../../services/jobseeker.service";
 import ConsultantService from "../../services/consultant.service";
 import AvailableTimeService from "../../services/available_time.service";
 import AppointmentService from "../../services/appointment.service";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const JobSeekerDashboard = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [message, setMessage] = useState(false);
+  const [message, setMessage] = useState("");
   const currentUser = JobSeekerAuthService.getCurrentUser();
   const [consultantList, setConsultantList] = useState([]);
   const [isFirstRender, setIsFirstRender] = useState(false);
@@ -32,10 +32,17 @@ const JobSeekerDashboard = () => {
         (response) => {
           console.log(response.data);
           if (response.data == null) {
-            navigate("/job-seeker/profile");
+            navigate("/job-seeker/login");
           }
         },
         (error) => {
+          if (error.response && error.response.status === 401) {
+            // Handle unauthorized error here, e.g., redirect to login page or show a message
+            // You can also dispatch an action to update your Redux store or context
+            console.log('Unauthorized error:', error);
+            JobSeekerAuthService.logout();
+            navigate("/job-seeker/login");
+          }
           const _content =
             (error.response && error.response.data) ||
             error.message ||
@@ -49,6 +56,13 @@ const JobSeekerDashboard = () => {
           setConsultantList(response.data);
         },
         (error) => {
+          if (error.response && error.response.status === 401) {
+            // Handle unauthorized error here, e.g., redirect to login page or show a message
+            // You can also dispatch an action to update your Redux store or context
+            console.log('Unauthorized error:', error);
+          JobSeekerAuthService.logout();
+          navigate("/job-seeker/profile");
+          }
           const _content =
             (error.response && error.response.data) ||
             error.message ||
@@ -73,7 +87,13 @@ const JobSeekerDashboard = () => {
         setSelectedItem(response.data);
         setIsViewModalOpen(true);
       },
-      (error) => {}
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          console.log('Unauthorized error:', error);
+          JobSeekerAuthService.logout();
+          navigate("/job-seeker/profile");
+        }
+      }
     );
   };
   
@@ -89,6 +109,10 @@ const JobSeekerDashboard = () => {
         setIsBookingModalOpen(false);
       },
       (error) => {
+        if (error.response && error.response.status === 401) {
+          console.log('Unauthorized error:', error);
+          JobSeekerAuthService.logout();
+        }
         setLoading(false);
         setError(true);
         console.log(error);

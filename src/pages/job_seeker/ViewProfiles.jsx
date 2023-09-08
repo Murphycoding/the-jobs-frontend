@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import AvailableTimeService from "../../services/available_time.service";
 import ConsultantService from "../../services/consultant.service";
-import { useParams } from 'react-router-dom';
+import JobSeekerAuthService from "../../services/jobseeker_auth.service";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 const ViewProfiles = () => {
+  const navigate = useNavigate();
+
   const { id } = useParams();
   const [availableDates, setAvailableDates] = useState([]);
   const [consultant, setConsultant] = useState(null);
@@ -20,13 +23,25 @@ const ViewProfiles = () => {
       (response) => {
         setAvailableDates(response.data);
       },
-      (error) => {}
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          console.log("Unauthorized error:", error);
+          JobSeekerAuthService.logout();
+          navigate("/job-seeker/login");
+        }
+      }
     );
     ConsultantService.getConsultant(id).then(
       (response) => {
         setConsultant(response.data);
       },
-      (error) => {}
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          console.log("Unauthorized error:", error);
+          JobSeekerAuthService.logout();
+          navigate("/job-seeker/login");
+        }
+      }
     );
   });
   return (
@@ -118,10 +133,10 @@ const ViewProfiles = () => {
             {availableDates.map((item) => (
               <tr class="border-b border-gray-200 hover:bg-gray-100">
                 <td class="py-3 px-6 text-left">
-                  <span>{item.start_at }</span>
+                  <span>{item.start_at}</span>
                 </td>
                 <td class="py-3 px-6 text-left">
-                <span>{item.end_at }</span>
+                  <span>{item.end_at}</span>
                 </td>
               </tr>
             ))}
