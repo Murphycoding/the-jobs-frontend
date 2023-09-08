@@ -9,7 +9,7 @@ const AdminDashboard = () => {
   
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const currentUser = AdminAuthService.getCurrentUser();
+  const currentAdmin = AdminAuthService.getCurrentUser();
   const [consultantList, setConsultantList] = useState([]);
   const [isFirstRender, setIsFirstRender] = useState(false);
 
@@ -20,18 +20,23 @@ const AdminDashboard = () => {
     }
     setIsFirstRender(true);
 
-    if (currentUser && currentUser.roles) {
-      const isAdmin = currentUser.roles.includes("ROLE_ADMIN");
+    if (currentAdmin && currentAdmin.roles) {
+      const isAdmin = currentAdmin.roles.includes("ROLE_ADMIN");
 
       setLoading(true);
       setError(!isAdmin);
     }
-    ConsultantService.getAll().then(
+    AdminService.getDashboard().then(
       (response) => {
         console.log(response.data);
         setConsultantList(response.data);
       },
       (error) => {
+        if (error.response && error.response.status === 401) {
+          console.log('Unauthorized error:', error);
+          ConsultantAuthService.logout();
+          navigate("/admin/login");
+        }
         const _content =
           (error.response && error.response.data) ||
           error.message ||
@@ -44,7 +49,7 @@ const AdminDashboard = () => {
         AdminAuthService.logout();
       }
     };;
-  }, [currentUser]);
+  }, [currentAdmin]);
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
