@@ -42,13 +42,7 @@ const AdminDashboard = () => {
           error.message ||
           error.toString();
       }
-    ),
-    (error) => {
-      if (error.response && error.response.status === 401) {
-        console.log('Unauthorized error:', error);
-        AdminAuthService.logout();
-      }
-    };;
+    );
   }, [currentAdmin]);
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);

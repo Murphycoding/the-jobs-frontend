@@ -21,14 +21,14 @@ const AcceptRequest = () => {
     AppointmentService.getAllConsultant().then((response) => {
       console.log(response.data);
       setAppointmentList(response.data);
-    }),
+    },
     (error) => {
       if (error.response && error.response.status === 401) {
         console.log('Unauthorized error:', error);
         ConsultantAuthService.logout();
         navigate("/consultant/login");
       }
-    };
+    });
   });
   
   const submitBooking = (id,event) => {

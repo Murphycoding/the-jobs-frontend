@@ -34,14 +34,7 @@ const ConsultantAvailableDate = () => {
       (error) => {
         console.log(error);
       }
-    ),
-    (error) => {
-      if (error.response && error.response.status === 401) {
-        console.log('Unauthorized error:', error);
-        ConsultantAuthService.logout();
-        navigate("/consultant/login");
-      }
-    };
+    );
   };
 
   return (
