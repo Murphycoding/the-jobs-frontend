@@ -21,7 +21,7 @@ const AdminDashboard = () => {
     setIsFirstRender(true);
 
     if (currentUser && currentUser.roles) {
-      const isAdmin = currentUser.roles.includes("ROLE_jOB_SEEKER");
+      const isAdmin = currentUser.roles.includes("ROLE_ADMIN");
 
       setLoading(true);
       setError(!isAdmin);
