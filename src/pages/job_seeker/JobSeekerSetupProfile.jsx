@@ -18,7 +18,7 @@ const JobSeekerSetupProfile = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleLogin = (event) => {
+  const submitProfile = (event) => {
     event.preventDefault();
     setLoading(true);
     
@@ -58,7 +58,7 @@ const JobSeekerSetupProfile = () => {
           Complete the form with your personal information
         </p>
 
-        <form onSubmit={handleLogin}>
+        <form onSubmit={submitProfile}>
           <label class="block my-3 mt-8" for="name" id="name-label">
             <span class="font-medium text-gray-700">First Name</span>
             <input

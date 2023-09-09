@@ -40,6 +40,11 @@ const AcceptRequest = () => {
         setLoading(false);
         setError(false);
         setMessage("Your appointment has been scheduled successfully");
+
+        AppointmentService.getAllConsultant().then((response) => {
+          console.log(response.data);
+          setAppointmentList(response.data);
+        });
       },
       (error) => {
         setLoading(false);
@@ -57,6 +62,21 @@ const AcceptRequest = () => {
           <p class="text-gray-400"></p>
         </div>
         <div>
+        {message && (
+              <div
+              className={`${
+                error
+                  ? 'bg-red-100 border border-red-400 text-red-700'
+                  : 'bg-green-100 border border-green-400 text-green-700'
+              } px-4 py-3 rounded relative`}
+                role="alert"
+              >
+                <strong class="font-bold">{error?"ERROR":"SUCEESS"} </strong>
+                <span class="block sm:inline">
+                {message}
+                </span>
+              </div>
+            )}
           <table class="min-w-full leading-normal ">
             <thead>
               <tr>

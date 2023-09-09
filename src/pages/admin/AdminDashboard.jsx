@@ -6,13 +6,21 @@ import { NavLink, useNavigate } from "react-router-dom";
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
-  
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const currentAdmin = AdminAuthService.getCurrentUser();
   const [consultantList, setConsultantList] = useState([]);
   const [isFirstRender, setIsFirstRender] = useState(false);
 
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const [name, setName] = useState("");
+  const [specificCountry, setSpecificCountry] = useState("");
+  const [jobType, setJobType] = useState("");
 
   useEffect(() => {
     if (isFirstRender) {
@@ -26,15 +34,15 @@ const AdminDashboard = () => {
       setLoading(true);
       setError(!isAdmin);
     }
-    AdminService.getDashboard().then(
+    ConsultantService.getAll().then(
       (response) => {
         console.log(response.data);
         setConsultantList(response.data);
       },
       (error) => {
         if (error.response && error.response.status === 401) {
-          console.log('Unauthorized error:', error);
-          ConsultantAuthService.logout();
+          console.log("Unauthorized error:", error);
+          AdminAuthService.logout();
           navigate("/admin/login");
         }
         const _content =
@@ -45,13 +53,8 @@ const AdminDashboard = () => {
     );
   }, [currentAdmin]);
 
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
-  const [selectedItem, setSelectedItem] = useState(null);
-
   const openEditModal = (item) => {
-    console.log("asdsad");
+    console.log(item);
     setSelectedItem(item);
     setIsEditModalOpen(true);
   };
@@ -60,7 +63,62 @@ const AdminDashboard = () => {
     setSelectedItem(item);
     setIsDeleteModalOpen(true);
   };
+  const submitUpdate = (event) => {
+    console.log(selectedItem.id);
+    setLoading(true);
 
+    ConsultantService.update(selectedItem.id,name,name,jobType,specificCountry).then(
+      (res) => {
+        setIsEditModalOpen(false);
+        setLoading(false);
+        setError(false);
+        
+        
+        ConsultantService.getAll().then(
+          (response) => {
+            console.log(response.data);
+            setConsultantList(response.data);
+          }
+        );
+
+        
+      },
+      (error) => {
+        if (error.response && error.response.status === 401) {
+          console.log("Unauthorized error:", error);
+          AdminAuthService.logout();
+          navigate("/admin/login");
+        }
+        setLoading(false);
+        setError(true);
+        console.log(error);
+      }
+    );
+  };
+  const submiDelete = (event) => {
+    console.log(selectedItem.id);
+    setLoading(true);
+
+    ConsultantService.submitDelete(selectedItem.id).then(
+      (res) => {
+        setLoading(false);
+        setError(false);
+        setMessage("Your appointment has been scheduled successfully");
+        setIsDeleteModalOpen(false);
+
+          
+        ConsultantService.getAll().then(
+          (response) => {
+            console.log(response.data);
+            setConsultantList(response.data);
+          }
+        );
+      },
+      (error) => {
+       alert("You have to Complete to appoinment")
+      }
+    );
+  };
   return (
     <div>
       <div class="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
@@ -75,7 +133,7 @@ const AdminDashboard = () => {
               <th class="py-3 px-6 text-left">Consultant Name </th>
               <th class="py-3 px-6 text-left">Specific Country</th>
               <th class="py-3 px-6 text-center">Job Type</th>
-              <th class="py-3 px-6 text-center">Free Time </th>
+              
               <th class="py-3 px-6 text-center">Actions</th>
             </tr>
           </thead>
@@ -117,24 +175,14 @@ const AdminDashboard = () => {
                 <td class="py-3 px-6 text-left">
                   <div class="flex items-center">
                     <div class="mr-2"></div>
-                    <span>UK</span>
+                    <span>{item.specialized_country}</span>
                   </div>
                 </td>
                 <td class="py-3 px-6 text-center">
-                  <span>UI/UX Designer </span>
+                  <span>{item.specialized_area} </span>
                 </td>
+                
                 <td class="py-3 px-6 text-center">
-                  <NavLink to={`/job-seeker/viewprofiles/${item.id}`}>
-                    view
-                  </NavLink>
-                  {/* <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">
-                {item.map((item) => (
-
-                ))}
-                </span> */}
-                </td>
-                <td class="py-3 px-6 text-center">
-                  
                   <div class="flex item-center justify-center">
                     <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                       <svg
@@ -159,7 +207,7 @@ const AdminDashboard = () => {
                     </div>
                     <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                       <svg
-                       onClick={() => openEditModal(item)}
+                        onClick={() => openEditModal(item)}
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -175,7 +223,7 @@ const AdminDashboard = () => {
                     </div>
                     <div class="w-4 mr-2 transform hover:text-purple-500 hover:scale-110">
                       <svg
-                       onClick={() => openDeleteModal(item)}
+                        onClick={() => openDeleteModal(item)}
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -203,7 +251,7 @@ const AdminDashboard = () => {
               {/*content*/}
               <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                 {/*header*/}
-                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                {/* <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
                   <h3 className="text-3xl font-semibold"></h3>
                   <button
                     className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -213,15 +261,11 @@ const AdminDashboard = () => {
                       ×
                     </span>
                   </button>
-                </div>
+                </div> */}
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
                   <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                    I always felt like I could do anything. That’s the main
-                    thing people are controlled by! Thoughts- their perception
-                    of themselves! They're slowed down by their perception of
-                    themselves. If you're taught you can’t do anything, you
-                    won’t do anything. I was taught I could do everything.
+                   Confrom Your delete.
                   </p>
                 </div>
                 {/*footer*/}
@@ -236,7 +280,7 @@ const AdminDashboard = () => {
                   <button
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setIsDeleteModalOpen(false)}
+                    onClick={() => submiDelete()}
                   >
                     Save Changes
                   </button>
@@ -268,42 +312,48 @@ const AdminDashboard = () => {
                 {/*body*/}
                 <div className="relative p-6 flex-auto">
                   <div class="mb-4 md:w-full">
-                    <label for="email" class="block text-xs mb-1">
-                     Consultant Name
+                    <label for="name" class="block text-xs mb-1">
+                      Consultant Name
                     </label>
                     <input
                       class="w-full border rounded p-2 outline-none focus:shadow-outline"
-                      type="email"
-                      name="email"
-                      id="email"
+                      type="name"
+                      name="name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      id="name"
                       placeholder="Consultant Name"
                     />
                   </div>
                   <div class="mb-4 md:w-full">
-                    <label for="email" class="block text-xs mb-1">
+                    <label for="name" class="block text-xs mb-1">
                       Specific Country
                     </label>
                     <input
                       class="w-full border rounded p-2 outline-none focus:shadow-outline"
-                      type="email"
-                      name="email"
-                      id="email"
+                      type="name"
+                      name="name"
+                      value={specificCountry}
+                      onChange={(e) => setSpecificCountry(e.target.value)}
+                      id="name"
                       placeholder="Specific Country"
                     />
                   </div>
                   <div class="mb-4 md:w-full">
                     <label for="email" class="block text-xs mb-1">
-                    Specific Job
+                      Specific Job
                     </label>
                     <input
                       class="w-full border rounded p-2 outline-none focus:shadow-outline"
                       type="email"
                       name="email"
+                      value={jobType}
+                      onChange={(e) => setJobType(e.target.value)}
                       id="email"
                       placeholder=" Specific Job"
                     />
                   </div>
-                  <div class="mb-4 md:w-full">
+                  {/* <div class="mb-4 md:w-full">
                     <label for="email" class="block text-xs mb-1">
                       Free Time
                     </label>
@@ -311,10 +361,12 @@ const AdminDashboard = () => {
                       class="w-full border rounded p-2 outline-none focus:shadow-outline"
                       type="email"
                       name="email"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
                       id="email"
                       placeholder=" Free Time"
                     />
-                  </div>
+                  </div> */}
                 </div>
                 {/*footer*/}
                 <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
@@ -328,7 +380,7 @@ const AdminDashboard = () => {
                   <button
                     className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setIsEditModalOpen(false)}
+                    onClick={() => submitUpdate(false)}
                   >
                     Save Changes
                   </button>

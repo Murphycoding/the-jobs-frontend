@@ -6,6 +6,8 @@ import { RiNotification3Line } from 'react-icons/ri';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import { Outlet } from "react-router-dom";
 import { useStateContext } from './contexts/ContextProvider';
+import { useNavigate } from "react-router-dom";
+import JobSeekerAuthService from "../../../services/jobseeker_auth.service";
 
 import avatar from './data/avatar.jpg';
 const initialState = {
@@ -67,7 +69,14 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
       }
     }, [screenSize, setActiveMenu]);
 
-    const handleActiveMenu = () => setActiveMenu(!activeMenu);
+    const handleActiveMenu = () => setActiveMenu(!activeMenu); 
+    const navigate = useNavigate();
+  
+    const logout = (event) => {
+      JobSeekerAuthService.logout();
+      navigate("/");
+    };
+    
 
     return (
       <div className="flex justify-between p-2 md:ml-6 md:mr-6 relative">
@@ -78,23 +87,12 @@ const NavButton = ({ title, customFunc, icon, color, dotColor }) => (
           icon={<AiOutlineMenu />}
         />
         <div className="flex">
-            <div
-              className="flex items-center gap-2 cursor-pointer p-1 hover:bg-light-gray rounded-lg"
-              onClick={() => handleClick("userProfile")}
-            >
-              <img
-                className="rounded-full w-8 h-8"
-                src={avatar}
-                alt="user-profile"
-              />
-              <p>
-                <span className="text-gray-400 text-14">Hi,</span>{" "}
-                <span className="text-gray-400 font-bold ml-1 text-14">
-                  Nisal
-                </span>
-              </p>
-              <MdKeyboardArrowDown className="text-gray-400 text-14" />
-            </div>
+        <div
+          className="flex items-center gap-2 cursor-pointer p-1 text-color1 hover:bg-light-gray rounded-lg"
+          onClick={() => logout()}
+        >
+          LOGOUT
+        </div>
           
           {/* 
               {isClicked.cart && (<Cart />)}

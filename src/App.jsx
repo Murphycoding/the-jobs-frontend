@@ -41,7 +41,7 @@ function App() {
         <Route path="admin/login" element={<AdminLogin />} />
         <Route path="consultant/login" element={<ConsultantLogin />} />
         <Route path="consultant/signup" element={<ConsultantSignup />} />
-        <Route path="consultant/signup/profile" element={<ConsultantSetupProfile />} />
+        <Route path="consultant/profile" element={<ConsultantSetupProfile />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboard />} />

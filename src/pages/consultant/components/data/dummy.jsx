@@ -479,6 +479,7 @@ export const links = [
       {
         name: 'Consultant View',
         icon: <FiShoppingBag />,
+        url:"consultant" 
       },
     ],
   },
@@ -493,6 +494,18 @@ export const links = [
       {
         name: 'My Appointment',
         icon: <RiContactsLine />,
+        url:"consultant/acceptrequest" 
+      },
+      
+    ],
+  },
+  {
+    title: 'Time Slots',
+    links: [
+      {
+        name: 'Available Times',
+        icon: <FiShoppingBag />,
+        url:"consultant/availabledate" 
       },
     ],
   },

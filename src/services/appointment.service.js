@@ -9,7 +9,7 @@ const save = (id) => {
 };
 
 const   accepted = (id) => {
-  return axios.post(API_URL + "  accepted",{
+  return axios.post(API_URL + "accepted",{
     "id":id
   });
 };

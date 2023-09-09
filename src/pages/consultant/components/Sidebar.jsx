@@ -39,9 +39,9 @@ const Sidebar = () => {
             alt="Logo"
           />
         </Link>
-          <button type='button' onClick={()=>setActiveMenu((prevActiveMenu)=> !prevActiveMenu)} className='text-xl rounded-full p-3 hover:bg-light-gray mt-4 block'>
+          {/* <button type='button' onClick={()=>setActiveMenu((prevActiveMenu)=> !prevActiveMenu)} className='text-xl rounded-full p-3 hover:bg-light-gray mt-4 block'>
             <MdOutlineCancel /> 
-          </button>
+          </button> */}
       </div>
       <div className='m-10'>
         {links.map((item) => (
@@ -50,7 +50,7 @@ const Sidebar = () => {
              {item.title} 
             </p>
             {item.links.map((link) => (
-              <NavLink to={`/${link.name}`} key={link.name} onClick={handleCloseSidebar} style={({ isActive }) => ({backgroundColor: isActive ? currentColor:''})}
+              <NavLink to={`/${link.url}`} key={link.name} onClick={handleCloseSidebar} style={({ isActive }) => ({backgroundColor: isActive ? currentColor:''})}
               className={({ isActive }) => isActive ? activeLink : normalLink}>
                 {link.icon}
                 <span className='capitalize'>

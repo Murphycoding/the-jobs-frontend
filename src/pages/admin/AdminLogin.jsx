@@ -72,7 +72,7 @@ const AdminLogin = () => {
                   for="email"
                   class="block mb-2 text-sm font-medium text-gray-600"
                 >
-                  Email
+                  Username
                 </label>
 
                 <input

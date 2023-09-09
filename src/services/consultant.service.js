@@ -14,7 +14,7 @@ const getConsultant= (id) => {
 const getAll = () => {
   return axios.get(API_URL+"all");
 };
-const profile = (firstname,lastname,dob,gender,address,contactnumber,nic,jobtype) => {
+const profile = (firstname,lastname,dob,gender,address,contactnumber,nic,jobtype,specialized_country) => {
   return axios.post(API_URL + "save", {
     "first_name":firstname,
     "last_name":lastname,
@@ -23,15 +23,30 @@ const profile = (firstname,lastname,dob,gender,address,contactnumber,nic,jobtype
     "address":address,
     "contact_number": contactnumber,
     "nic":nic,
-    "job_type":jobtype,
+    "specialized_area":jobtype,
+    "specialized_country":specialized_country,
   });
+};
+const update = (id,firstname,lastname,jobtype,specificConutry) => {
+  return axios.put(API_URL + "update/"+id, {
+    "first_name":firstname,
+    "last_name":lastname,
+    "specialized_area":jobtype,
+    "specialized_country":specificConutry
+  });
+};
+
+const submitDelete = (id) => {
+  return axios.delete(API_URL + "delete/"+id);
 };
 
 const ConsunltantService = {
   getDashboard,
   profile,
   getAll,
-  getConsultant
+  getConsultant,
+  update,
+  submitDelete
 }
 
 

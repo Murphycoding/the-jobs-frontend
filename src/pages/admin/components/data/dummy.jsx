@@ -476,10 +476,10 @@ export const links = [
   {
     title: 'Dashboard',
     links: [ {
-      name: 'Manage Accounts ',
+      name: 'Dashboard',
       icon: <RiContactsLine />,
+      url:"admin" 
     }
-      
     ],
   },
 

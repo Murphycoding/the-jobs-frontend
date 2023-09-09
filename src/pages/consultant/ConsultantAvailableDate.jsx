@@ -18,7 +18,13 @@ const ConsultantAvailableDate = () => {
   };
 
   const handleAddData = () => {
-    setTemporaryData([...temporaryData, inputData]);
+    const modifiedData = { ...inputData };
+
+    // Modify the time values to include seconds
+    modifiedData.start_time = `${modifiedData.start_time}:00`;
+    modifiedData.end_time = `${modifiedData.end_time}:00`;
+
+    setTemporaryData([...temporaryData, modifiedData]);
     setInputData({ date: "", start_time: "", end_time: "" });
   };
 

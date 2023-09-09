@@ -479,10 +479,12 @@ export const links = [
       {
         name: 'View Consultants',
         icon: <IoMdContacts />,
+        url:"job-seeker"
       },
       {
         name:'View Session',
         icon: <RiContactsLine />,
+        url:"job-seeker/appoinment"
       },
 
       

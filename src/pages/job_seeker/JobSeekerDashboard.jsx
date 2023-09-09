@@ -32,7 +32,7 @@ const JobSeekerDashboard = () => {
         (response) => {
           console.log(response.data);
           if (response.data == null) {
-            navigate("/job-seeker/login");
+            navigate("/job-seeker/profile");
           }
         },
         (error) => {
